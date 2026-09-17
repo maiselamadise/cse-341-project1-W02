@@ -1,0 +1,213 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Contacts API",
+    "description": "API for storing and retrieving contact information (firstName, lastName, email, favoriteColor, birthday).",
+    "version": "1.0.0"
+  },
+  "basePath": "/",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "description": "Health check.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/contacts": {
+      "get": {
+        "tags": ["Contacts"],
+        "summary": "Get all contacts",
+        "description": "Returns every contact document in the collection.",
+        "responses": {
+          "200": {
+            "description": "Array of contacts",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Contact" }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "schema": { "$ref": "#/definitions/Error" }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Contacts"],
+        "summary": "Create a new contact",
+        "description": "All fields are required.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/ContactInput" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Contact created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string", "example": "6512f1a2b3c4d5e6f7890123" }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required field(s)",
+            "schema": { "$ref": "#/definitions/Error" }
+          },
+          "500": {
+            "description": "Server error",
+            "schema": { "$ref": "#/definitions/Error" }
+          }
+        }
+      }
+    },
+    "/contacts/{id}": {
+      "get": {
+        "tags": ["Contacts"],
+        "summary": "Get a single contact by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "MongoDB ObjectId of the contact"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The contact",
+            "schema": { "$ref": "#/definitions/Contact" }
+          },
+          "400": {
+            "description": "Invalid contact id",
+            "schema": { "$ref": "#/definitions/Error" }
+          },
+          "404": {
+            "description": "Contact not found",
+            "schema": { "$ref": "#/definitions/Error" }
+          },
+          "500": {
+            "description": "Server error",
+            "schema": { "$ref": "#/definitions/Error" }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Contacts"],
+        "summary": "Update an existing contact",
+        "description": "All fields are required; the document is fully replaced.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "MongoDB ObjectId of the contact"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/ContactInput" }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Contact updated (no content returned)"
+          },
+          "400": {
+            "description": "Invalid id or missing required field(s)",
+            "schema": { "$ref": "#/definitions/Error" }
+          },
+          "404": {
+            "description": "Contact not found",
+            "schema": { "$ref": "#/definitions/Error" }
+          },
+          "500": {
+            "description": "Server error",
+            "schema": { "$ref": "#/definitions/Error" }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Contacts"],
+        "summary": "Delete a contact by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "MongoDB ObjectId of the contact"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Contact deleted (no content returned)"
+          },
+          "400": {
+            "description": "Invalid contact id",
+            "schema": { "$ref": "#/definitions/Error" }
+          },
+          "404": {
+            "description": "Contact not found",
+            "schema": { "$ref": "#/definitions/Error" }
+          },
+          "500": {
+            "description": "Server error",
+            "schema": { "$ref": "#/definitions/Error" }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Contact": {
+      "type": "object",
+      "properties": {
+        "_id": { "type": "string", "example": "6512f1a2b3c4d5e6f7890123" },
+        "firstName": { "type": "string", "example": "John" },
+        "lastName": { "type": "string", "example": "Doe" },
+        "email": { "type": "string", "example": "john.doe@example.com" },
+        "favoriteColor": { "type": "string", "example": "Blue" },
+        "birthday": { "type": "string", "example": "1990-01-15" }
+      }
+    },
+    "ContactInput": {
+      "type": "object",
+      "required": ["firstName", "lastName", "email", "favoriteColor", "birthday"],
+      "properties": {
+        "firstName": { "type": "string", "example": "John" },
+        "lastName": { "type": "string", "example": "Doe" },
+        "email": { "type": "string", "example": "john.doe@example.com" },
+        "favoriteColor": { "type": "string", "example": "Blue" },
+        "birthday": { "type": "string", "example": "1990-01-15" }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "error": { "type": "string" }
+      }
+    }
+  }
+}

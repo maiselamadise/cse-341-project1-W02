@@ -1,0 +1,21 @@
+{
+  "name": "cse-341-project1",
+  "version": "1.0.0",
+  "description": "API for storing and retrieving contacts, backed by MongoDB",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node seed.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongodb": "^6.21.0",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14",
+    "swagger-autogen": "^2.23.7"
+  }
+}

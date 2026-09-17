@@ -1,0 +1,39 @@
+@baseUrl = http://localhost:3000
+# Swap the line above for your Render URL when testing the deployed API, e.g.:
+# @baseUrl = https://your-app-name.onrender.com
+
+### GET all contacts
+GET {{baseUrl}}/contacts
+
+### GET a single contact by id
+# Replace the id below with a real _id from your database
+GET {{baseUrl}}/contacts/PASTE_CONTACT_ID_HERE
+
+### POST - create a new contact
+POST {{baseUrl}}/contacts
+Content-Type: application/json
+
+{
+  "firstName": "Ada",
+  "lastName": "Lovelace",
+  "email": "ada.lovelace@example.com",
+  "favoriteColor": "Purple",
+  "birthday": "1815-12-10"
+}
+
+### PUT - update an existing contact
+# Replace the id below with a real _id from your database
+PUT {{baseUrl}}/contacts/PASTE_CONTACT_ID_HERE
+Content-Type: application/json
+
+{
+  "firstName": "Ada",
+  "lastName": "Lovelace",
+  "email": "ada.lovelace@updated.com",
+  "favoriteColor": "Teal",
+  "birthday": "1815-12-10"
+}
+
+### DELETE - remove a contact
+# Replace the id below with a real _id from your database
+DELETE {{baseUrl}}/contacts/PASTE_CONTACT_ID_HERE
